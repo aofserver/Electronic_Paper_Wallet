@@ -9,4 +9,5 @@ First time use connect wifi name `Wallet` and open browser go to router IP  in g
 
 #Enjoy :)
 `Not your key not your coin.`
+
 ![](https://github.com/aofserver/Electronic_Paper_Wallet/blob/main/src/wallet.jpg)
