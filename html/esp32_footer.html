@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+</style>
+</head>
+<body style="background-color: #515A5A">
+
+
+
+<div class="footer" style="display: flex; justify-content: space-evenly; background-color: #000; position: fixed; left: 0; bottom: 0; width: 100%; border-radius: 20px 20px 0 0;">
+    <div>
+    	<p id="wallet_footer" style="cursor: pointer; font-weight: bold; color: #6F6F6F;" onclick='Redirect("wallet")'>Wallet</p>
+    </div>
+    <div>
+    	<p id="setting_footer" style="cursor: pointer; font-weight: bold; color: #6F6F6F;" onclick='Redirect("setting")'>Setting</p>
+    </div>
+</div>
+
+<script type='text/javascript'>
+	var listt = window.location.href.split("/");
+    for(var i=0;i<listt.length;i++){
+        if(listt[i]==="wallet"){
+            const element1 = document.getElementById("wallet_footer");
+            const element2 = document.getElementById("setting_footer");
+            element1.style = "cursor: pointer; font-weight: bold; color: white;"
+            element2.style = "cursor: pointer; font-weight: bold; color: #6F6F6F;"
+        }
+        else if(listt[i]==="setting"){
+    		const element1 = document.getElementById("wallet_footer");
+            const element2 = document.getElementById("setting_footer");
+            element1.style = "cursor: pointer; font-weight: bold; color: #6F6F6F;"
+            element2.style = "cursor: pointer; font-weight: bold; color: white;"
+        }
+    }
+	
+	function Redirect(v){
+        window.location.href='http://'+window.location.hostname+'/'+v;
+  }
+</script>
+
+</body>
+</html> 
