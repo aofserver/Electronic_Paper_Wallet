@@ -28,9 +28,6 @@ char* password = "";
 char www_username[100] = "admin";
 char www_password[100] = "password";
 
-//String Address = "Address";
-//String Seed = "Seed";
-
 IPAddress local_ip(192, 168, 1, 1);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
@@ -113,9 +110,9 @@ String listDir(fs::FS &fs, const char * dirname, uint8_t levels){
 }
 
 void Resatrt(){
+  Serial.println("################## RESTART ##################");
   ESP.restart();
 }
-
 
 void writeFile(fs::FS &fs, const char * path, const char * message){
     Serial.printf("Writing file: %s\r\n", path);
@@ -333,7 +330,6 @@ void handleAddWalletPOST() {
     deserializeJson(doc, postBody);
     DeserializationError error = deserializeJson(doc, postBody);
     if (error) {
-        // if the file didn't open, print an error:
         Serial.print(F("Error parsing JSON "));
         Serial.println(error.c_str());
         String msg = error.c_str();
@@ -343,12 +339,10 @@ void handleAddWalletPOST() {
         String address = doc["address"];
         String seed = doc["seed"];
         String dataf = "'"+wallet_name+";"+address+";"+seed+"'";
-        Serial.println(dataf);
+ 
 
         
         String wal = readFile(SPIFFS, "/config_wallet.txt");
-        Serial.print("wallet :");
-        Serial.println(wal);
         if(wal == "" || wal == "0"){
           //Encrypt
           String text = dataf;
@@ -369,8 +363,6 @@ void handleAddWalletPOST() {
             en = en + Encrypt(text.substring((len*i), (len*i)+len),key) +"|";
           }
           en.remove(en.length()-1, 1);
-          Serial.print("wallet encrypt : ");
-          Serial.println(en);
           writeFile(SPIFFS, "/config_wallet.txt", en.c_str());
         }
         else{
@@ -382,8 +374,6 @@ void handleAddWalletPOST() {
           }
 
           de = de +","+ dataf;
-          Serial.print("wallet decrypt : ");
-          Serial.println(de);
 
           //Encrypt
           String text = de;
@@ -401,8 +391,6 @@ void handleAddWalletPOST() {
             en = en + Encrypt(text.substring((len*i), (len*i)+len),key) +"|";
           }
           en.remove(en.length()-1, 1);
-          Serial.print("wallet encrypt : ");
-          Serial.println(en);
           writeFile(SPIFFS, "/config_wallet.txt", en.c_str());
         }
     }
@@ -417,16 +405,11 @@ void handleDeleteWalletGET() {
   statusSleep = false;
   //Decrypt
   String wal = readFile(SPIFFS, "/config_wallet.txt");
-  Serial.print("wallet encrypt : ");
-  Serial.println(wal);
   String de = "";
   String key = www_password;
   for(int i=0;i<getValue(wal, '|', 0).toInt();i++){            
     de = de + Decrypt(getValue(wal, '|', i+1),key);
   }
-
-  Serial.print("wallet decrypt : ");
-  Serial.println(de);
   
 
   int le=1;
@@ -439,8 +422,7 @@ void handleDeleteWalletGET() {
   String myWallet = "";
   for(int i=0;i<le;i++){
     String wal = getValue(de, ',', i);
-    String wal_name = getValue(wal, ':', 0);
-    Serial.println(wal_name);
+    String wal_name = getValue(wal, ';', 0);
     myWallet = myWallet +""+wal_name+"',";
   }
 
@@ -450,10 +432,8 @@ void handleDeleteWalletGET() {
     myWallet = "";
   }
 
-  Serial.print("myWallet : ");
   Serial.println(myWallet);
-  
-      
+   
   String HTML PROGMEM = R"=====(
                                 <!DOCTYPE HTML>
                                 <html lang='en-US'>
@@ -714,8 +694,6 @@ void handleDeleteWalletPOST() {
         String delete_wallet_name = doc["delete_wallet_name"];
 
         String wal = readFile(SPIFFS, "/config_wallet.txt");
-        Serial.print("wallet :");
-        Serial.println(wal);
         if(wal == ""){
 
         }
@@ -727,26 +705,18 @@ void handleDeleteWalletPOST() {
             de = de + Decrypt(getValue(wal, '|', i+1),key);
           }
 
-          Serial.print("wallet decrypt : ");
-          Serial.println(de);
-
           int lenn = 1;
           for(int i=0;i<de.length()-1;i++){
             if(de.substring(i, i+1)==","){
               lenn++;
             }
           }
-          Serial.print("len , :");
-          Serial.println(lenn);
           String de_new = "";
           String w;
           String w_name;
           for(int i=0;i<lenn;i++){
             w = getValue(de,',', i);
             w_name = getValue(w,':', 0);
-            Serial.print(i);
-            Serial.print(" = > ");
-            Serial.println(w_name);
             if(delete_wallet_index.toInt() != i && w_name != delete_wallet_name){          
               de_new = de_new +","+ getValue(de,',', i);
             }
@@ -754,8 +724,6 @@ void handleDeleteWalletPOST() {
           
           de = de_new ;
           de.remove(0, 1);
-          Serial.print("wallet decrypt new :");
-          Serial.println(de);
 
           //Encrypt
           String text = de;
@@ -773,8 +741,6 @@ void handleDeleteWalletPOST() {
             en = en + Encrypt(text.substring((len*i), (len*i)+len),key) +"|";
           }
           en.remove(en.length()-1, 1);
-          Serial.print("wallet encrypt : ");
-          Serial.println(en);
           writeFile(SPIFFS, "/config_wallet.txt", en.c_str());
         }
     }
@@ -789,16 +755,11 @@ void handleWallet() {
   statusSleep = false;
   //Decrypt
   String wal = readFile(SPIFFS, "/config_wallet.txt");
-  Serial.print("wallet encrypt : ");
-  Serial.println(wal);
   String de = "";
   String key = www_password;
   for(int i=0;i<getValue(wal, '|', 0).toInt();i++){            
     de = de + Decrypt(getValue(wal, '|', i+1),key);
   }
-
-  Serial.print("wallet decrypt : ");
-  Serial.println(de);
 
   String myWallet = "'Select wallet.;Select wallet.;Select wallet.'";
   myWallet += ","+de;
@@ -1163,14 +1124,11 @@ void handleSettingPOST() {
         String conf_auth = "{'username_auth':'"+username_auth+"','password_auth':'"+password_auth+"'}";
 
         String auth = readFile(SPIFFS, "/config_auth.txt");
-        Serial.print("auth : ");
-        Serial.println(conf_auth);
         
         if(auth == ""){
           writeFile(SPIFFS, "/config_wifi.txt", conf_wifi.c_str());
           writeFile(SPIFFS, "/config_auth.txt", conf_auth.c_str());
           writeFile(SPIFFS, "/config_shutdown.txt", conf_shutdown.c_str());
-//          Resatrt();
         }
         else{
           //Decrypt
@@ -1180,10 +1138,6 @@ void handleSettingPOST() {
           for(int i=0;i<getValue(wal, '|', 0).toInt();i++){            
             de = de + Decrypt(getValue(wal, '|', i+1),key);
           }
-
-          Serial.print("wallet decrypt : ");
-          Serial.println(de);
-
 
           key = password_auth;
           username_auth.toCharArray(www_username, 100);
@@ -1205,13 +1159,10 @@ void handleSettingPOST() {
             en = en + Encrypt(text.substring((len*i), (len*i)+len),key) +"|";
           }
           en.remove(en.length()-1, 1);
-          Serial.print("wallet encrypt : ");
-          Serial.println(en);
           writeFile(SPIFFS, "/config_wallet.txt", en.c_str());
           writeFile(SPIFFS, "/config_auth.txt", conf_auth.c_str());
           writeFile(SPIFFS, "/config_wifi.txt", conf_wifi.c_str());
           writeFile(SPIFFS, "/config_shutdown.txt", conf_shutdown.c_str());
-//          Resatrt();
         }
     }
     statusSleep = true;
@@ -1363,7 +1314,7 @@ void setup(void){
         Serial.println(myIP);
 
         String dataconfig_auth = readFile(SPIFFS, "/config_auth.txt");
-        Serial.println("config_auth : " + dataconfig_auth);
+        Serial.println("config: " + dataconfig_auth);
         if(dataconfig_auth != ""){
           DynamicJsonDocument doc_auth(1024);
           deserializeJson(doc_auth, dataconfig_auth);
