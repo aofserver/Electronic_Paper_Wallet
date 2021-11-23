@@ -12,3 +12,5 @@ For help, go to `\help`
 `Not your key not your coin.`
 
 ![](https://github.com/aofserver/Electronic_Paper_Wallet/blob/main/src/wallet.jpg)
+
+![](https://github.com/aofserver/Electronic_Paper_Wallet/blob/main/src/wallet.gif)
