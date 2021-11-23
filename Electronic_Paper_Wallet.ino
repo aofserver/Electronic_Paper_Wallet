@@ -1361,18 +1361,6 @@ void setup(void){
 
 
 
-//  //STA mode
-//  WiFi.begin("TEE_WiFi", "TeeHQw!f!");
-//  // Wait for connection
-//  while (WiFi.status() != WL_CONNECTED) {
-//    delay(500);
-//    Serial.print(".");
-//  }
-//  Serial.print("STA Pencil IP address: ");
-//  Serial.println(WiFi.localIP());
-
-  
-
 
 #ifdef ESP8266
   if (MDNS.begin("esp8266")) {
