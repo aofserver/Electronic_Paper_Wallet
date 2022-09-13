@@ -7,7 +7,7 @@
 #include <ArduinoJson.h>
 #include "FS.h"
 #include "SPIFFS.h"
-#include <xxtea-iot-crypt.h>
+#include <xxtea-lib.h>
 ESP8266WebServer server(80);
 #else
 #include <WiFi.h>
@@ -18,7 +18,7 @@ ESP8266WebServer server(80);
 #include <ArduinoJson.h>
 #include "FS.h"
 #include "SPIFFS.h"
-#include <xxtea-iot-crypt.h>
+#include <xxtea-lib.h>
 WebServer server(80);
 #endif
 
@@ -1412,7 +1412,7 @@ void setup(void){
 }
 
 void loop(void){
-  //deep leep  
+  //deep sleep  
   if ((millis() > shutdown_time * 60 * 1000) && statusSleep) { 
     esp_deep_sleep_start(); 
   }  
