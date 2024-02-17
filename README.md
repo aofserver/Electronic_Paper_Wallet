@@ -11,6 +11,6 @@ For help, go to `\help`
 # Enjoy :)
 `Not your key not your coin.`
 
-![](https://github.com/aofserver/Electronic_Paper_Wallet/blob/main/src/wallet.jpg)
+![](https://github.com/aofserver/Electronic_Paper_Wallet/blob/main/arduino/src/wallet.jpg)
 
-![](https://github.com/aofserver/Electronic_Paper_Wallet/blob/main/src/wallet.gif)
+![](https://github.com/aofserver/Electronic_Paper_Wallet/blob/main/arduino/src/wallet.gif)

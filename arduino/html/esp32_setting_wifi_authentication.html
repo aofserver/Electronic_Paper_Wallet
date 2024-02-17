@@ -1,0 +1,173 @@
+<!DOCTYPE HTML><html lang='en-US'><meta http-equiv='Content-Type' content='text/html; charset=UTF-8' /><meta name='viewport' content='width=device-width,initial-scale=1,user-scalable=no' /></head><body style="background-color: #515A5A;">
+
+  <h2 style='text-align: center; margin: 50px 0 0 0; padding: 0; color: #FFF  ;'>Setting</h2>
+  <h2 style='text-align: center; margin: 0 0 5px 0; padding: 0; color: #FFF;'>Electronic Paper Wallet</h2>
+  <p style='text-align: center; margin: 0 0 20px 0; padding: 0; color: #F4D03F;'>(อย่าเชื่อมต่ออินเทอร์เน็ตและควรใช้งานเมื่ออยู่คนเดียวตามลำพัง!)</p>
+  
+  <div style="background-color: #273746; border-radius: 30px;">
+    <h3 style='text-align: center; color: #FFF; margin:0; padding-top: 20px;'>Wifi</h3>
+    <div style="width: 90%; margin: 0 auto 0 auto;">
+      <p style='text-align: center; margin: 0 0 0 0; padding: 0; color: #F4D03F;'>(หากไม่ใส่รหัสผ่านจะใช้เป็น Public wifi การสื่อสารระหว่าง website และ อุปกรณ์นั้นจะใช้ http หากมีบุคคลที่สามเชื่อมต่อมาภายใน network ของอุปกรณ์สามารถที่จะดักข้อมูลระหว่างทางได้)</p>
+    </div>
+    <div style="display: flex; margin-top:20px; width: 100%;">
+      <div style="width: 20%;"></div>
+      <div style="width: 100%;">
+        <input id="wifi_ssid" placeholder='SSID' onkeyup="BlockSpecialCharacter(event)" style='text-align: center; width: 100%; height: 30px; margin: 0 auto 0 auto; border-radius: 10px; background-color: #2E4053; color: #FFF;'></input>
+      </div>
+      <div style="width: 20%;"></div>
+    </div>
+    <div style="display: flex; width: 100%; padding:20px 0 0 0;">
+      <div style="width: 20%;"></div>
+      <div style="width: 100%;">
+        <input id="wifi_pass" placeholder='Password' onkeyup="BlockSpecialCharacter(event)" type="password" style='text-align: center; width: 100%; height: 30px; margin: 0 auto 0 auto; border-radius: 10px; background-color: #2E4053; color: #FFF;'></input>
+      </div>
+      <div style="width: 20%;"></div>
+    </div>
+    <div style="display: flex; width: 100%; padding:20px 0 20px 0;">
+      <div style="width: 20%;"></div>
+      <div style="width: 100%;">
+        <input id="wifi_pass2" placeholder='Confirm password' onkeyup="BlockSpecialCharacter(event)" type="password" style='text-align: center; width: 100%; height: 30px; margin: 0 auto 0 auto; border-radius: 10px; background-color: #2E4053; color: #FFF;'></input>
+      </div>
+      <div style="width: 20%;"></div>
+    </div>
+  </div>
+  
+  <div style="height: 20px;"></div>
+  
+  <div style="background-color: #273746; border-radius: 30px;">
+    <h3 style='text-align: center; color: #FFF; margin:0; padding-top: 20px;'>Authentication</h3>
+    <div style="width: 90%; margin: 0 auto 0 auto;">
+      <p style='text-align: center; margin: 0 0 0 0; padding: 0; color: #F4D03F;'>(ใช้ Username และ Password ในการเข้าถึง electronic paper wallet ส่วนของ Username คือชื่อของอุปกรณ์ Password ใช้ในการเข้ารหัสและถอนรหัส Seed.)</p>
+    </div>
+    <div style="display: flex; margin-top:20px; width: 100%;">
+      <div style="width: 20%;"></div>
+      <div style="width: 100%;">
+        <input id="auth_user" placeholder='Username' onkeyup="BlockSpecialCharacter(event)" style='text-align: center; width: 100%; height: 30px; margin: 0 auto 0 auto; border-radius: 10px; background-color: #2E4053; color: #FFF;'></input>
+      </div>
+      <div style="width: 20%;"></div>
+    </div>
+  
+    <div style="display: flex; width: 100%; padding:20px 0 0 0;">
+      <div style="width: 20%;"></div>
+      <div style="width: 100%;">
+        <input id="auth_pass" placeholder='Password' onkeyup="BlockSpecialCharacter(event)" type="password" style='text-align: center; width: 100%; height: 30px; margin: 0 auto 0 auto; border-radius: 10px; background-color: #2E4053; color: #FFF;'></input>
+      </div>
+      <div style="width: 20%;"></div>
+    </div>
+    <div style="display: flex; width: 100%; padding:20px 0 20px 0;">
+      <div style="width: 20%;"></div>
+      <div style="width: 100%;">
+        <input id="auth_pass2" placeholder='Confirm password' onkeyup="BlockSpecialCharacter(event)" type="password" style='text-align: center; width: 100%; height: 30px; margin: 0 auto 0 auto; border-radius: 10px; background-color: #2E4053; color: #FFF;'></input>
+      </div>
+      <div style="width: 20%;"></div>
+    </div>
+  </div>
+
+
+  <div style="height: 20px;"></div>
+  
+  <div style="background-color: #273746; border-radius: 30px;">
+    <h3 style='text-align: center; color: #FFF; margin:0; padding-top: 20px;'>Shut down device</h3>
+    <div style="width: 90%; margin: 0 auto 0 auto;">
+      <p style='text-align: center; margin: 0 0 0 0; padding: 0; color: #F4D03F;'>(ปิดอุปกรณ์อัตโนมัติเมื่อครบกำหนดเวลาเพื่อป้องกันการ Brute force ภายใน Netwrok)</p>
+    </div>
+    <div style="display: flex; margin-top:20px; width: 100%;">
+
+      <div style=" margin: auto;">
+        <br>
+        <input type="radio" id="15min" name="fav_language" value="15">
+        <label for="15min" style='color: #FFF;'>15 นาที</label><br><br>
+        <input type="radio" id="30min" name="fav_language" value="30">
+        <label for="30min" style='color: #FFF;'>30 นาที</label><br><br>
+        <input type="radio" id="60min" name="fav_language" value="60">
+        <label for="60min" style='color: #FFF;'>60 นาที</label><br><br>
+        <input type="radio" id="notdoanything" name="fav_language" value="999999999">
+        <label for="notdoanything" style='color: #FFF;'>ไม่ปิด</label><br><br>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  
+  
+  <div style='padding:20px 0 80px 0;'>
+    <center><button style='width:150px; height:35px; background-color:#1E8449; color: #FFF; border-radius: 10px;' onclick='SAVE()'>Save</button></center>
+  </div>
+
+  
+  <script type='text/javascript'>
+    function SAVE(){
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Access-Control-Allow-Headers", "*");
+      if(document.getElementById("wifi_ssid").value != "" && document.getElementById("auth_user").value != "" && document.getElementById("auth_pass").value != "" && document.getElementById("wifi_pass").value == document.getElementById("wifi_pass2").value && document.getElementById("auth_pass").value == document.getElementById("auth_pass2").value && ( document.getElementById("15min").checked || document.getElementById("30min").checked || document.getElementById("60min").checked || document.getElementById("notdoanything").checked )){
+        var listradio = ["15min","30min","60min","notdoanything"]
+        var shutdown = "30"
+        for(var i=0;i<listradio.length;i++){
+          if(document.getElementById(listradio[i]).checked){
+            shutdown = document.getElementById(listradio[i]).value
+          }
+        }
+        var raw = JSON.stringify({"wifi_ssid": document.getElementById("wifi_ssid").value,"wifi_pass": document.getElementById("wifi_pass").value,"username_auth": document.getElementById("auth_user").value,"password_auth": document.getElementById("auth_pass").value,"shutdown":shutdown});
+        var requestOptions = {method: 'POST',headers: myHeaders,body: raw,redirect: 'follow'};
+        alert("กำลัง update setting ระบบกำลัง restart รอสักครู่...\nหลังจากอุปกรณ์เปิดแล้วเชื่อมต่อไปยัง wifi ที่ตั้งค่าไว้.")
+        fetch('http://'+window.location.hostname+'/setting', requestOptions).then(response => response.text()).then((result) => {
+          if(result == 'ok'){
+            window.location.href='http://'+window.location.hostname+'/wallet';
+          }
+        }).catch(error => console.log('error', error));
+      }
+      else{
+        alert("กรอกข้อมูลให้ครบถ้วน!")
+      }
+    }
+
+    function BlockSpecialCharacter(e){
+      var text = e.target.value;
+      var text_new = text;
+      var iChars = "\\\',|\";";
+      for (var i=0; i < text.length; i++) {
+        if(iChars.includes(text[i])){
+          console.log(text[i]);
+          text_new = text_new.replace(text[i], "");
+          alert("ห้ามใช้อักษร | ; , \' \" `")
+        }
+      }
+      e.target.value = text_new;
+    }
+  </script>
+
+<div class="footer" style="display: flex; justify-content: space-evenly; background-color: #000; position: fixed; left: 0; bottom: 0; width: 100%; border-radius: 20px 20px 0 0;">
+  <div>
+    <p id="wallet_footer" style="cursor: pointer; font-weight: bold; color: white;" onclick='Redirect("wallet")'>Wallet</p>
+  </div>
+  <div>
+    <p id="setting_footer" style="cursor: pointer; font-weight: bold; color: white;" onclick='Redirect("setting")'>Setting</p>
+  </div>
+</div>
+
+<script type='text/javascript'>
+var listt = window.location.href.split("/");
+  for(var i=0;i<listt.length;i++){
+      if(listt[i]==="wallet"){
+          const element1 = document.getElementById("wallet_footer");
+          const element2 = document.getElementById("setting_footer");
+          element1.style = "cursor: pointer; font-weight: bold; color: white;"
+          element2.style = "cursor: pointer; font-weight: bold; color: #6F6F6F;"
+      }
+      else if(listt[i]==="setting"){
+      const element1 = document.getElementById("wallet_footer");
+          const element2 = document.getElementById("setting_footer");
+          element1.style = "cursor: pointer; font-weight: bold; color: #6F6F6F;"
+          element2.style = "cursor: pointer; font-weight: bold; color: white;"
+      }
+  }
+
+function Redirect(v){
+      window.location.href='http://'+window.location.hostname+'/'+v;
+}
+</script>
+</body>
+</html>

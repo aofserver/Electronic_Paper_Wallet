@@ -1,0 +1,47 @@
+<!DOCTYPE HTML><html lang='en-US'><meta http-equiv='Content-Type' content='text/html; charset=UTF-8' /><meta name='viewport' content='width=device-width,initial-scale=1,user-scalable=no' /></head>
+<body style="background-color: #515A5A;">
+<h2 style='text-align: center; margin: 50px 0 0 0; padding: 0; color: #FFF  ;'>Electronic Paper Wallet</h2>
+<p style='text-align: center; margin: 0 0 100px 0; padding: 0; color: #F4D03F;'>(อย่าเชื่อมต่ออินเทอร์เน็ตและควรใช้งานเมื่ออยู่คนเดียวตามลำพัง!)</p>
+
+<div style="background-color: #273746; border-radius: 30px;">
+    <div style="padding-bottom: 50px;"></div>
+    <h1 style='text-align: center; color: #FFF; margin:0;'>ERROR 404!</h1>
+    <div style="width: 90%; margin: auto;">
+        <p style='text-align: center; margin: 0 0 0 0; padding: 10px 0 0 0; color: #F4D03F;'>ไม่มี page ที่ต้องการเรียกตรวจสอบ url ให้ถูกต้อง</p>
+    </div>
+
+    <div style="padding-bottom: 50px;"></div>
+</div>
+
+<div class="footer" style="display: flex; justify-content: space-evenly; background-color: #000; position: fixed; left: 0; bottom: 0; width: 100%; border-radius: 20px 20px 0 0;">
+  <div>
+    <p id="wallet_footer" style="cursor: pointer; font-weight: bold; color: #6F6F6F;" onclick='Redirect("wallet")'>Wallet</p>
+  </div>
+  <div>
+    <p id="setting_footer" style="cursor: pointer; font-weight: bold; color: #6F6F6F;" onclick='Redirect("setting")'>Setting</p>
+  </div>
+</div>
+
+<script type='text/javascript'>
+var listt = window.location.href.split("/");
+  for(var i=0;i<listt.length;i++){
+      if(listt[i]==="wallet"){
+          const element1 = document.getElementById("wallet_footer");
+          const element2 = document.getElementById("setting_footer");
+          element1.style = "cursor: pointer; font-weight: bold; color: white;"
+          element2.style = "cursor: pointer; font-weight: bold; color: #6F6F6F;"
+      }
+      else if(listt[i]==="setting"){
+      const element1 = document.getElementById("wallet_footer");
+          const element2 = document.getElementById("setting_footer");
+          element1.style = "cursor: pointer; font-weight: bold; color: #6F6F6F;"
+          element2.style = "cursor: pointer; font-weight: bold; color: white;"
+      }
+  }
+
+function Redirect(v){
+      window.location.href='http://'+window.location.hostname+'/'+v;
+}
+</script>
+</body>
+</html>
