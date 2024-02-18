@@ -7,9 +7,9 @@ StorageClass::StorageClass()
 
 void StorageClass::begin()
 {
-  // std::cout << "\n... Begin Storage ...";
+  Debug.PrintLine(__FILE__,__LINE__,"... Begin Storage ...");
   if(!SPIFFS.begin(true)){
-    std::printf("SPIFFS Mount Failed!\n");
+    Debug.PrintLine(__FILE__,__LINE__,"SPIFFS Mount Failed!\n");
     return;
   }
 }
@@ -42,17 +42,16 @@ String StorageClass::HexToString(String input) {
 
 String StorageClass::listDir(const char *dirname, uint8_t levels)
 {
-  std::printf("Listing directory: %s\r\n", dirname);
-  
+  Debug.PrintLine(__FILE__,__LINE__,"Listing directory: " + String(dirname));
   File root = SPIFFS.open(dirname);
   if (!root)
   {
-    std::printf("\n- failed to open directory");
+    Debug.PrintLine(__FILE__,__LINE__,"[ERROR] failed to open directory");
     return "";
   }
   if (!root.isDirectory())
   {
-    std::printf("\n - not a directory");
+    Debug.PrintLine(__FILE__,__LINE__,"[ERROR] not found a directory");
     return "";
   }
   File file = root.openNextFile();
@@ -72,10 +71,7 @@ String StorageClass::listDir(const char *dirname, uint8_t levels)
     {
       String fileName = file.name();
       listFile = listFile + fileName + ",";
-      std::printf("  FILE: ");
-      std::printf(fileName.c_str());
-      // std::printf("\tSIZE: ");
-      // std::printf(file.size());
+      Debug.PrintLine(__FILE__,__LINE__,"  FILE: " + String(fileName.c_str()) + "\tSIZE: " + String(int(file.size())));
     }
     file = root.openNextFile();
   }
@@ -83,25 +79,26 @@ String StorageClass::listDir(const char *dirname, uint8_t levels)
 }
 
 void StorageClass::writeFile(const char * path, const char * message){
-    Serial.printf("Writing file: %s\r\n", path);
+    Debug.PrintLine(__FILE__,__LINE__,"Writing file: " + String(path));
     File file = SPIFFS.open(path, FILE_WRITE);
     if(!file){
-        Serial.println("- failed to open file for writing");
+        Debug.PrintLine(__FILE__,__LINE__,"[ERROR] failed to open file for writing");
         return;
     }
     if(file.print(message)){
-        Serial.println("- file written");
+        Debug.PrintLine(__FILE__,__LINE__,"file written");
     } else {
-        Serial.println("- write failed");
+        Debug.PrintLine(__FILE__,__LINE__,"[ERROR] write failed");
     }
     file.close();
 }
 
+
 String StorageClass::readFile(const char * path){
-    Serial.printf("Reading file: %s\r\n", path);
+    Debug.PrintLine(__FILE__,__LINE__,"Reading file: " + String(path));
     File file = SPIFFS.open(path);
     if(!file || file.isDirectory()){
-        Serial.println("- failed to open file for reading");
+        Debug.PrintLine(__FILE__,__LINE__,"[ERROR] failed to open file for reading");
         return "";
     }
     String dataf = "";
@@ -113,11 +110,12 @@ String StorageClass::readFile(const char * path){
 }
 
 void StorageClass::deleteFile(const char * path){
-    Serial.printf("Deleting file: %s\r\n", path);
+    Debug.PrintLine(__FILE__,__LINE__,"Deleting file: " + String(path));
     if(SPIFFS.remove(path)){
-        Serial.println("- file deleted");
+        Debug.PrintLine(__FILE__,__LINE__,"file deleted");
     } else {
         Serial.println("- delete failed");
+        Debug.PrintLine(__FILE__,__LINE__,"[ERROR] failed to delete file");
     }
 }
 

@@ -11,36 +11,34 @@
 #include "Encryption.h"
 #include "Storage.h"
 #include "ServerEsp.h"
+#include "Debug.h"
+// #include <Callback.h>
 WebServer server(WEB_PORT);
 
 bool debug = DEBUG_MODE;
-
 char* ssid = WIFI_SSID;
 char* password = WIFI_PASSWORD;
-
 char www_username[100] = WWW_USERNAME;
 char www_password[100] = WWW_PASSWORD;
+bool statusSleep = true;
+int shutdown_time = SHUTDOWN_TIME;
 
 IPAddress local_ip(192, 168, 1, 1);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
 
+// void Debug(String data){
+//   if(debug){
+//     Serial.print(data);
+//   }
+// }
 
-bool statusSleep = true;
-int shutdown_time = SHUTDOWN_TIME;
+// void DebugLine(String data){
+//   if(debug){
+//     Serial.println(data);
+//   }
+// }
 
-
-void DebugLine(String data){
-  if(debug){
-    Serial.println(data);
-  }
-}
-
-void Debug(String data){
-  if(debug){
-    Serial.print(data);
-  }
-}
 
 void Resatrt(){
   Serial.println("################## RESTART ##################");
@@ -81,8 +79,8 @@ void handleAddWalletPOST() {
     deserializeJson(doc, postBody);
     DeserializationError error = deserializeJson(doc, postBody);
     if (error) {
-        Debug("Error parsing JSON ");
-        DebugLine(error.c_str());
+        Debug.Print("Error parsing JSON ");
+        Debug.PrintLine(error.c_str());
         String msg = error.c_str();
         server.send(400, F("text/html"),"Error in parsin json body! <br>" + msg);
     } else {
@@ -183,7 +181,7 @@ void handleDeleteWalletGET() {
     myWallet = "";
   }
 
-  DebugLine(myWallet);
+  Debug.PrintLine(__FILE__,__LINE__,myWallet);
   String config_auth = Storage.readFile(PATH_CONFIG_AUTH);
   String HTML PROGMEM = ServerEsp.PageDeleteWallet(config_auth, myWallet);
   statusSleep = true;
@@ -198,10 +196,8 @@ void handleDeleteWalletPOST() {
     deserializeJson(doc, postBody);
     DeserializationError error = deserializeJson(doc, postBody);
     if (error) {
-        // if the file didn't open, print an error:
-        Debug("Error parsing JSON ");
-        DebugLine(error.c_str());
         String msg = error.c_str();
+        Debug.PrintLine(__FILE__,__LINE__,"Error parsing JSON :" + msg);
         server.send(400, F("text/html"),"Error in parsin json body! <br>" + msg);
     } else {
         String delete_wallet_index = doc["delete_wallet_index"];
@@ -302,10 +298,8 @@ void handleSettingPOST() {
     deserializeJson(doc, postBody);
     DeserializationError error = deserializeJson(doc, postBody);
     if (error) {
-        // if the file didn't open, print an error:
-        Debug("Error parsing JSON ");
-        DebugLine(error.c_str());
         String msg = error.c_str();
+        Debug.PrintLine(__FILE__,__LINE__,"Error parsing JSON :" + msg);
         server.send(400, F("text/html"),"Error in parsin json body! <br>" + msg);
     } else {
         String wifi_ssid = doc["wifi_ssid"];
@@ -379,14 +373,14 @@ void handleNotFound(){
 
 void ReadConfigWifi(){
   String dataconfig_wifi = Storage.readFile(PATH_CONFIG_WIFI);
-  DebugLine("config : " + dataconfig_wifi);
+  Debug.PrintLine(__FILE__,__LINE__,"config : " + dataconfig_wifi);
   if(dataconfig_wifi != ""){
     DynamicJsonDocument doc_wifi(1024);
     deserializeJson(doc_wifi, dataconfig_wifi);
     DeserializationError error_wifi = deserializeJson(doc_wifi, dataconfig_wifi);
     if (error_wifi) {
-        Debug(F("Error parsing JSON "));
-        DebugLine(error_wifi.c_str());
+        String msg = error_wifi.c_str();
+        Debug.PrintLine(__FILE__,__LINE__,"Error parsing JSON :" + msg);
     } else {
         String wifi_ssid = doc_wifi["wifi_ssid"];
         String wifi_pass = doc_wifi["wifi_pass"];
@@ -394,18 +388,18 @@ void ReadConfigWifi(){
         WiFi.softAP(wifi_ssid.c_str(), wifi_pass.c_str());
         WiFi.softAPConfig(local_ip, gateway, subnet);
         IPAddress myIP = WiFi.softAPIP();
-        DebugLine("AP "+wifi_ssid+" IP address: " + myIP.toString());
+        Debug.PrintLine(__FILE__,__LINE__,"AP "+wifi_ssid+" IP address: " + myIP.toString());
 
         String dataconfig_auth = Storage.readFile(PATH_CONFIG_AUTH);
-        DebugLine("config: " + dataconfig_auth);
+        Debug.PrintLine(__FILE__,__LINE__,"config: " + dataconfig_auth);
 
         if(dataconfig_auth != ""){
           DynamicJsonDocument doc_auth(1024);
           deserializeJson(doc_auth, dataconfig_auth);
           DeserializationError error_auth = deserializeJson(doc_auth, dataconfig_auth);
           if (error_auth) {
-            Debug(F("Error parsing JSON "));
-            DebugLine(error_auth.c_str());
+            String msg = error_auth.c_str();
+            Debug.PrintLine(__FILE__,__LINE__,"Error parsing JSON :" + msg);
           } else {
             String username_auth = doc_auth["username_auth"];
             String password_auth = doc_auth["password_auth"];
@@ -420,21 +414,21 @@ void ReadConfigWifi(){
         WiFi.softAP(ssid, password);
         WiFi.softAPConfig(local_ip, gateway, subnet);
         IPAddress myIP = WiFi.softAPIP();
-        DebugLine("AP IP address: " + myIP.toString());
+        Debug.PrintLine(__FILE__,__LINE__,"AP IP address: " + myIP.toString());
   }
 }
 
 
 void ReadConfigShutdown(void){
   String dataconfig_shutdown = Storage.readFile(PATH_CONFIG_SHUTDOWN);
-  Serial.println("config : " + dataconfig_shutdown);
+  Debug.PrintLine(__FILE__,__LINE__,"config : " + dataconfig_shutdown);
   if(dataconfig_shutdown != ""){
     DynamicJsonDocument doc_shutdown(1024);
     deserializeJson(doc_shutdown, dataconfig_shutdown);
     DeserializationError error_wifi = deserializeJson(doc_shutdown, dataconfig_shutdown);
     if (error_wifi) {
-      Debug(F("Error parsing JSON "));
-      DebugLine(error_wifi.c_str());
+      String msg = error_wifi.c_str();
+      Debug.PrintLine(__FILE__,__LINE__,"Error parsing JSON :" + msg);
     } else {
       String buff = doc_shutdown["shutdown"];
       shutdown_time = buff.toInt();
@@ -473,17 +467,16 @@ void SetRoute(){
   server.begin();
 }
 
-void setup(void){
-  Encryption.begin();
-  Storage.begin();
-  Serial.begin(115200);
-  DebugLine("\n\n\n################### START ###################");
 
+void setup(void){
+  Serial.begin(115200);
+  Debug.PrintLine(__FILE__,__LINE__,"################### START ###################");
+  Storage.begin();
   ReadConfigWifi();
   ReadConfigShutdown();
 
   if (MDNS.begin("esp32")) {
-    DebugLine("mDNS responder started");
+    Debug.PrintLine(__FILE__,__LINE__,"mDNS responder started");
   }
 
   SetCors();

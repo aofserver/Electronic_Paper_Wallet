@@ -5,13 +5,13 @@ EncryptionClass::EncryptionClass() {
 }
 
 void EncryptionClass::begin() {
-    // std::cout << "\n... Begin Encryption ...";
+  
 }
 
 String EncryptionClass::Encrypt(String dataf,String key){
   xxtea.setKey(key);
   String result = xxtea.encrypt(dataf);
-  result.toLowerCase(); // (Optional)
+  result.toLowerCase();
   return result;
 }
 

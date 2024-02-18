@@ -6,6 +6,7 @@
 #include <iostream>
 #include "FS.h"
 #include "SPIFFS.h"
+#include "Debug.h"
 
 class StorageClass {
     private:
