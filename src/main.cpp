@@ -27,18 +27,6 @@ IPAddress local_ip(192, 168, 1, 1);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
 
-// void Debug(String data){
-//   if(debug){
-//     Serial.print(data);
-//   }
-// }
-
-// void DebugLine(String data){
-//   if(debug){
-//     Serial.println(data);
-//   }
-// }
-
 
 void Resatrt(){
   Serial.println("################## RESTART ##################");
